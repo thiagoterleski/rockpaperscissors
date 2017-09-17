@@ -1,11 +1,13 @@
+@import "mixins";
+
 // Global vars
 $gutter: 8px;
 
 // Pallete
 // https://www.materialpalette.com/cyan/red
-$primary-color-dark:   #0097A7;
-$primary-color:        #00BCD4;
-$primary-color-light:  #B2EBF2;
+$primary-color-dark:   #512DA8;
+$primary-color:        #673AB7;
+$primary-color-light:  #D1C4E9;
 $primary-color-text:   #FFFFFF;
 $accent-color:         #FFC107;
 $primary-text-color:   #212121;
@@ -42,7 +44,7 @@ body {
 // Main layout composition
 .main {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	min-height: 100vh;
 	.welcome {
 		flex: 1;
@@ -61,8 +63,22 @@ body {
 			.button:first-child {
 				margin-bottom: $gutter * 2;
 			}
+			@include breakpoint(xs) {
+				margin: $gutter 0 0;;
+				flex-direction: column;
+			}
 		}
 		.intro {}
+		.about-it {
+			@include breakpoint(xs) {
+				display: none;
+			}
+		}
+
+		@include breakpoint(xs) {
+			padding: $gutter;
+			justify-content: center;
+		}
 	}
 	.game-content {
 		flex: 2;
@@ -71,7 +87,14 @@ body {
 		justify-content: center;
 		position: relative;
 		overflow: hidden;
+		@include breakpoint(xs) {
+	    flex: 6;
+	  }
 	}
+
+	@include breakpoint(sm) {
+    flex-direction: row;
+  }
 }
 
 // Game
@@ -108,12 +131,20 @@ body {
 	width: 100%;
 	height: 100%;
 
+	@include breakpoint(xs) {
+		transform: rotate(90deg);
+	}
+
 	.player {
 		position: absolute;
 		left: 50%;
 		margin-left: -200px;
 		animation-duration: 500ms;
 		animation-direction: normal;
+
+		@include breakpoint(xs) {
+			margin-left: -40px;
+		}
 
 		.player-content {
 			position: relative;
@@ -128,6 +159,13 @@ body {
 				width: 60px;
 				text-align: center;
 				margin-left: -30px;
+			}
+			img {
+				max-width: 100%;
+				@include breakpoint(xs) {
+					width: 80px;
+					height: auto;
+				}
 			}
 		}
 		&.player2 {
@@ -163,6 +201,10 @@ body {
 	animation-fill-mode: forwards;
 	opacity: 0;
 	z-index: 9;
+	@include breakpoint(xs) {
+		font-size: 1em;
+		padding: $gutter;
+	}
 }
 
 @keyframes appear {
