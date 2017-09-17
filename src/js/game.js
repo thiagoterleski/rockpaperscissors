@@ -1,9 +1,9 @@
 const choices = ['rock','paper', 'scissors'];
 
 export default class Game {
-	constructor () {
+	constructor (mode = '') {
 		// Mode game (human = humanxcomputer | computer = computer1 vs computer2)
-		this.mode = '';
+		this.mode = mode;
 		this.players = [];
 	}
 

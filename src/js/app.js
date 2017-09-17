@@ -6,6 +6,9 @@ export default class App {
 	 * Define the main DOM elements for playing (stage and buttons)
 	 */
 	constructor() {
+
+		this.currentGame = null;
+
 		this.$game = document.querySelector('.game-content');
 		this.$playHumanButton = document.querySelector('.play-human-button');
 		this.$playComputerButton = document.querySelector('.play-computer-button');
@@ -65,31 +68,22 @@ export default class App {
 
 		const isDraw = Boolean(results === 'draw');
 
-		const getTextContent = () => {
-			if (isDraw) {
-				return 'Draw';
-			}
-			return `${winner.name === 'human' ? 'You' : winner.name} win!`;
+		// Little helper to normalize player name
+		const normalizeName = (name) => {
+			return (name === 'human') ? 'you' : name;
 		}
 
 		const { winner, loser } = results;
-		const getResultClassSufix = () => {
-			const randomPosition = ['vertical','horizontal'][Math.round(Math.random())];
-			if (isDraw) {
-				return `is-draw ${randomPosition}`;
-			}
-			return `${winner.name}-wins ${randomPosition}`;
-		}
 
-		this.$game.innerHTML = `
-			<div class="results ${getResultClassSufix()}">
+		let template = `
+			<div class="winner-text">
+				${(isDraw) ? 'Draw' : normalizeName(winner.name) + ' wins'}
+			</div>
+			<div class="results">
 				<div class="player player1">
 					<div class="player-content">
 						<img src='${loadImage(isDraw ? 'hand' : winner.choice)}' width="400" height="400" />
 					</div>
-				</div>
-				<div class="winner-text">
-					${getTextContent()}
 				</div>
 				<div class="player player2">
 					<div class="player-content">
@@ -97,8 +91,29 @@ export default class App {
 					</div>
 				</div>
 			</div>
+			<button type="button" class="button flat button-restart">Restart</button>
 		`;
 
+		if (!isDraw) {
+			template = `
+				${template}
+				<div class="results-legend">
+					<div class="player winner"><b>${normalizeName(winner.name)}</b> - ${winner.choice}</div>
+					<div class="player loser"><b>${normalizeName(loser.name)}</b> - ${loser.choice}</div>
+				</div>
+			`
+		}
+
+		this.$game.innerHTML = template;
+
+		document.querySelector('.button-restart').addEventListener('click', (event) => {
+			event.preventDefault();
+			this.restartGame();
+		})
+	}
+
+	restartGame() {
+		this.play(this.currentGame.mode);
 	}
 
 	/**
@@ -108,12 +123,13 @@ export default class App {
 	 * @param  {String} [mode='human'] player mode
 	 */
 	play(mode = 'human') {
-		const GameClass = new Game();
+
+		this.currentGame = new Game(mode);
 
 		if (mode === 'human') {
 
-			GameClass.createPlayer('human');
-			GameClass.createPlayer('computer');
+			this.currentGame.createPlayer('human');
+			this.currentGame.createPlayer('computer');
 
 			const choicesTemplate = `
 				<div class="choices">
@@ -139,11 +155,11 @@ export default class App {
 				const $elem = event.currentTarget;
 				const humanChoice = $elem.dataset.choice;
 
-				GameClass.setPlayerChoice('human', humanChoice);
-				const compChoice = GameClass.getRandChoice()
-				GameClass.setPlayerChoice('computer', compChoice);
+				this.currentGame.setPlayerChoice('human', humanChoice);
+				const compChoice = this.currentGame.getRandChoice()
+				this.currentGame.setPlayerChoice('computer', compChoice);
 
-				const results = GameClass.computeGame('human', 'computer');
+				const results = this.currentGame.computeGame('human', 'computer');
 
 				console.log(results)
 
@@ -158,16 +174,16 @@ export default class App {
 		// Computer VS Computer
 		else {
 
-			GameClass.createPlayer('computer1');
-			GameClass.createPlayer('computer2');
+			this.currentGame.createPlayer('computer1');
+			this.currentGame.createPlayer('computer2');
 
-			const comp1Choice = GameClass.getRandChoice()
-			const comp2Choice = GameClass.getRandChoice()
+			const comp1Choice = this.currentGame.getRandChoice()
+			const comp2Choice = this.currentGame.getRandChoice()
 
-			GameClass.setPlayerChoice('computer1', comp1Choice);
-			GameClass.setPlayerChoice('computer2', comp2Choice);
+			this.currentGame.setPlayerChoice('computer1', comp1Choice);
+			this.currentGame.setPlayerChoice('computer2', comp2Choice);
 
-			const results = GameClass.computeGame('computer1', 'computer2');
+			const results = this.currentGame.computeGame('computer1', 'computer2');
 
 			this.showCountdown()
 				.then(() => {
