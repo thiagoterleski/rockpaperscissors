@@ -1,7 +1,239 @@
-body {
-	background-color: green;
+// Global vars
+$gutter: 8px;
 
-	h1 {
-		color: white;
+// Pallete
+// https://www.materialpalette.com/cyan/red
+$primary-color-dark:   #0097A7;
+$primary-color:        #00BCD4;
+$primary-color-light:  #B2EBF2;
+$primary-color-text:   #FFFFFF;
+$accent-color:         #FFC107;
+$primary-text-color:   #212121;
+$secondary-text-color: #757575;
+$divider-color:        #BDBDBD;
+$text-color: rgba(0,0,0,0.8);
+$text-inverse-color: rgba(255,255,255,0.8);
+$font-family: 'Roboto Mono', monospace;
+
+// Basic reset
+html, body {
+	margin: 0;
+	padding: 0;
+	line-height: 1.5em;
+	height: 100%;
+	font-size: 12px;
+}
+
+h1, h2, h3, h4, h5 {
+	font-weight: 300;
+}
+
+a {
+	color: $primary-color-dark;
+}
+
+body {
+	background-color: white;
+	font-family: 'Roboto Mono', monospace;
+	overflow: hidden;
+}
+
+
+// Main layout composition
+.main {
+	display: flex;
+	flex-direction: row;
+	min-height: 100vh;
+	.welcome {
+		flex: 1;
+		background-color: $primary-color;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		text-align: center;
+		padding: $gutter * 4;
+		color: $primary-color-text;
+		.actions {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 0 ($gutter * 4);
+			.button:first-child {
+				margin-bottom: $gutter * 2;
+			}
+		}
+		.intro {}
 	}
+	.game-content {
+		flex: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+}
+
+// Game
+.choices {
+	.title {
+		font-size: 1.4em;
+		display: block;
+		text-align: center;
+		margin-bottom: $gutter * 2;
+	}
+	.options {
+		.button {
+			width: 80px;
+			height: 80px;
+			margin: 0 $gutter;
+			border-radius: 40px;
+			padding: 0;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			transition: all 250ms ease;
+			&:hover {
+				background-color: $accent-color;
+			}
+			img {
+				max-width: 100%;
+			}
+		}
+	}
+}
+
+.results {
+	.player {
+		position: absolute;
+		left: 50%;
+		margin-left: -200px;
+
+		animation-duration: 500ms;
+		animation-direction: normal;
+
+		.player-content {
+			position: relative;
+			.player-name {
+				position: absolute;
+				z-index: 2;
+				left: 50%;
+				background-color: #3e1429;
+				color: $text-inverse-color;
+				padding: $gutter;
+				text-transform: uppercase;
+				width: 60px;
+				text-align: center;
+				margin-left: -30px;
+			}
+		}
+		&.player2 {
+			bottom: -20px;
+			animation-name: slideup;
+			.player-name {
+				bottom: $gutter * 2;
+			}
+		}
+		&.player1 {
+			top: -20px;
+			animation-name: slidedown;
+			.player-name {
+				top: $gutter * 2;
+			}
+			img {
+				transform: rotate(180deg);
+			}
+		}
+	}
+	.winner-text {
+		padding: $gutter * 2;
+		background-color: rgba(0,0,0,0.9);
+		color: $text-inverse-color;
+		font-size: 2em;
+		animation-duration: 600ms;
+		animation-name: appear;
+		animation-delay: 300ms;
+		transform: translate3d(0, 0, 0);
+  	backface-visibility: hidden;
+		animation-fill-mode: forwards;
+		opacity: 0;
+	}
+}
+@keyframes appear {
+	0% {
+		opacity: 0;
+		transform: rotate(-380deg) scale(.4);
+	}
+	100% {
+		opacity: 1;
+		transform: rotate(5deg) scale(1);
+	}
+}
+@keyframes slideup {
+	0% {
+		transform: rotate(15deg) translateY(100%);
+	}
+	100% {
+		transform: rotate(0) translateY(0);
+	}
+}
+@keyframes slidedown {
+	0% {
+		transform: rotate(-15deg) translateY(-100%);
+	}
+	100% {
+		transform: rotate(0) translateY(0);
+	}
+}
+
+// Countdown
+.countdown {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	.number {
+		font-size: 6em;
+		animation-name: digitcount;
+		animation-duration: 500ms;
+		animation-direction: normal;
+	}
+}
+
+@keyframes digitcount {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(2);
+	}
+}
+
+// Global elements
+
+// Buttons
+.button {
+	border: 0;
+	padding: $gutter;
+	font-size: 1em;
+	font-family: $font-family;
+	outline: none;
+	text-transform: uppercase;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	&:active {
+		box-shadow: 0 0 3px rgba(0,0,0,0.12), 0 0 2px rgba(0,0,0,0.24);
+	}
+	&.accent {
+		background: $accent-color;
+		color: $primary-text-color;
+	}
+	// sizes
+	&.big {
+		padding: $gutter*2;
+	}
+}
+
+// Message
+.message {
+	font-size: 1.2em;
+	color: $text-color;
 }
