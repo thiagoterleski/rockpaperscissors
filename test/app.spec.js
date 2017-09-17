@@ -1,6 +1,6 @@
 import App from '../src/js/app';
 
-describe('App class test', () => {
+describe('App class check functions', () => {
 
 	const game = document.createElement("div");
 	const playHumanButton = document.createElement("button");
@@ -15,16 +15,16 @@ describe('App class test', () => {
 
 	const AppClass = new App();
 
-	it('shoude have a createListeners function', () => {
+	it('should have a createListeners function', () => {
     expect(AppClass.createListeners).to.be.a('function');
 	});
-	it('shoude have a showResults function', () => {
+	it('should have a showResults function', () => {
     expect(AppClass.showResults).to.be.a('function');
 	});
-	it('shoude have a play function', () => {
+	it('should have a play function', () => {
     expect(AppClass.play).to.be.a('function');
 	});
-	it('shoude have a render function', () => {
+	it('should have a render function', () => {
     expect(AppClass.render).to.be.a('function');
 	});
 
