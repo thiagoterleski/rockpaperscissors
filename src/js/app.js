@@ -1,6 +1,10 @@
 import { Counter, loadImage } from './utils';
 import Game from './game';
 
+import Paper from '../assets/paper.svg';
+import Scissor from '../assets/scissor.svg';
+import Rock from '../assets/rock.svg';
+
 export default class App {
 	/**
 	 * Define the main DOM elements for playing (stage and buttons)
@@ -45,16 +49,23 @@ export default class App {
 
 		const $countdown = document.querySelector('.countdown');
 
+		const images = [Paper, Scissor, Rock];
+
+		// Start the countdown and show an animation to user
+		// When the count is zero a Promise is resolved,
+		// so the application can do next actions and show the results
 		return new Promise((resolve) => {
 			Counter.start(3, (count) => {
 				if (count === 0) {
 					return resolve()
 				}
+
 				$countdown.innerHTML = `
 				<span class="number">
-					${count}
+					<img alt="choice" src="${images[count -1]}" width="64" height="64" />
 				</span>
 				`;
+
 			});
 		})
 	}
@@ -94,6 +105,8 @@ export default class App {
 			<button type="button" class="button flat button-restart">Restart</button>
 		`;
 
+		// If is not a tie, one legend is show on top
+		// of page with current players and they choices
 		if (!isDraw) {
 			template = `
 				${template}
@@ -106,12 +119,14 @@ export default class App {
 
 		this.$game.innerHTML = template;
 
+		// Create the event listener for restart button
 		document.querySelector('.button-restart').addEventListener('click', (event) => {
 			event.preventDefault();
 			this.restartGame();
 		})
 	}
 
+	// Play again the game with the current mode selected
 	restartGame() {
 		this.play(this.currentGame.mode);
 	}
@@ -150,18 +165,20 @@ export default class App {
 
 			this.$game.innerHTML = choicesTemplate;
 
+			// This section will create a listener for each option button
+			// and handle the actions for each choice
 			const choiceButtons = document.querySelectorAll("button.choice-button");
 			choiceButtons.forEach($button => $button.addEventListener('click',(event) => {
 				const $elem = event.currentTarget;
 				const humanChoice = $elem.dataset.choice;
-
+				// Add the human player choice
 				this.currentGame.setPlayerChoice('human', humanChoice);
+				// Get a random choice for the computer player
 				const compChoice = this.currentGame.getRandChoice()
 				this.currentGame.setPlayerChoice('computer', compChoice);
 
+				// Compute the game results
 				const results = this.currentGame.computeGame('human', 'computer');
-
-				console.log(results)
 
 				this.showCountdown()
 					.then(() => {
@@ -173,16 +190,18 @@ export default class App {
 		}
 		// Computer VS Computer
 		else {
-
+			// Add the two players to the game
 			this.currentGame.createPlayer('computer1');
 			this.currentGame.createPlayer('computer2');
 
+			// Generate two choices and add the choices for each player
 			const comp1Choice = this.currentGame.getRandChoice()
 			const comp2Choice = this.currentGame.getRandChoice()
 
 			this.currentGame.setPlayerChoice('computer1', comp1Choice);
 			this.currentGame.setPlayerChoice('computer2', comp2Choice);
 
+			// Compute the game results
 			const results = this.currentGame.computeGame('computer1', 'computer2');
 
 			this.showCountdown()

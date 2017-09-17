@@ -16,7 +16,7 @@ export const Counter = {
 			update(count);
 			count -= 1;
 
-		}, 500)
+		}, 1000)
 	}
 }
 

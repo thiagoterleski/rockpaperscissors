@@ -139,7 +139,7 @@ body {
 		position: absolute;
 		left: 50%;
 		margin-left: -200px;
-		animation-duration: 500ms;
+		animation-duration: 1s;
 		animation-direction: normal;
 
 		@include breakpoint(xs) {
@@ -261,7 +261,7 @@ body {
 	.number {
 		font-size: 6em;
 		animation-name: digitcount;
-		animation-duration: 500ms;
+		animation-duration: 1s;
 		animation-direction: normal;
 	}
 }
