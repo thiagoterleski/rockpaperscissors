@@ -61,7 +61,7 @@ export default class App {
 				}
 
 				$countdown.innerHTML = `
-				<span class="number">
+				<span class="choice">
 					<img alt="choice" src="${images[count -1]}" width="64" height="64" />
 				</span>
 				`;
