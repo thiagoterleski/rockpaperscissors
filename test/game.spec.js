@@ -5,22 +5,22 @@ describe('Game class check functions', () => {
 	const GameClass = new Game();
 
 	it('should have a createPlayer function', () => {
-    expect(GameClass.createPlayer).to.be.a('function');
+		expect(GameClass.createPlayer).to.be.a('function');
 	});
 	it('should have a getPlayer function', () => {
-    expect(GameClass.getPlayer).to.be.a('function');
+		expect(GameClass.getPlayer).to.be.a('function');
 	});
 	it('should have a getAllPlayers function', () => {
-    expect(GameClass.getAllPlayers).to.be.a('function');
+		expect(GameClass.getAllPlayers).to.be.a('function');
 	});
 	it('should have a setPlayerChoice function', () => {
-    expect(GameClass.setPlayerChoice).to.be.a('function');
+		expect(GameClass.setPlayerChoice).to.be.a('function');
 	});
 	it('should have a getRandChoice function', () => {
-    expect(GameClass.getRandChoice).to.be.a('function');
+		expect(GameClass.getRandChoice).to.be.a('function');
 	});
 	it('should have a computeGame function', () => {
-    expect(GameClass.computeGame).to.be.a('function');
+		expect(GameClass.computeGame).to.be.a('function');
 	});
 
 });
@@ -39,7 +39,7 @@ describe('Game method tests', () => {
 		expect(players).to.deep.equal([{'name':'Thiago','choice':''}]);
 	});
 
-	describe('Should create a player and set a choice for him', () => {
+	it('Should create a player and set a choice for him', () => {
 		const GameClass = new Game();
 		GameClass.createPlayer('Thiago');
 		GameClass.setPlayerChoice('Thiago', 'rock');
@@ -51,7 +51,7 @@ describe('Game method tests', () => {
 
 	});
 
-	describe('Should get a random valid choice', () => {
+	it('Should get a random valid choice', () => {
 		const GameClass = new Game();
 		const choices = ['rock','paper', 'scissors'];
 		const choice = GameClass.getRandChoice();
@@ -59,6 +59,42 @@ describe('Game method tests', () => {
 		expect(choices).to.include(choice);
 
 	});
+});
+
+describe('Game logic test', () => {
+
+	const GameClass = new Game();
+	GameClass.createPlayer('Thiago');
+	GameClass.createPlayer('computer');
+
+	it('rock crushes scissors', () => {
+		GameClass.setPlayerChoice('Thiago', 'rock');
+		GameClass.setPlayerChoice('computer', 'scissors');
+		const results = GameClass.computeGame('Thiago', 'computer');
+		expect(results.winner.name).to.equal('Thiago');
+	});
+
+	it('paper covers rock', () => {
+		GameClass.setPlayerChoice('Thiago', 'paper');
+		GameClass.setPlayerChoice('computer', 'rock');
+		const results = GameClass.computeGame('Thiago', 'computer');
+		expect(results.winner.name).to.equal('Thiago');
+	});
+
+	it('scissors cut paper', () => {
+		GameClass.setPlayerChoice('Thiago', 'scissors');
+		GameClass.setPlayerChoice('computer', 'paper');
+		const results = GameClass.computeGame('Thiago', 'computer');
+		expect(results.winner.name).to.equal('Thiago');
+	});
+
+	it('should tie if is same choice', () => {
+		GameClass.setPlayerChoice('Thiago', 'scissors');
+		GameClass.setPlayerChoice('computer', 'scissors');
+		const results = GameClass.computeGame('Thiago', 'computer');
+		expect(results).to.equal('draw');
+	});
+
 
 
 });

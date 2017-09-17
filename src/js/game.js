@@ -72,13 +72,45 @@ export default class Game {
 	 * the logic is simple and use only a if statements to handle the game rules
 	 * this logic could be easly extend if needed
 	 * https://en.wikipedia.org/wiki/Rock-paper-scissors-lizard-Spock
+	 *
 	 * @param  {String} [namePlayer1] player one name
 	 * @param  {String} [namePlayer2] player two name
+	 *
 	 * @return {Object || String} The result could be a string, in case of draw
 	 * or a Object containing the two players in order of winner
 	 */
 	computeGame(namePlayer1 = '', namePlayer2 = '') {
-		console.log(namePlayer1, namePlayer2)
+
+		const player1 = this.getPlayer(namePlayer1);
+		const player2 = this.getPlayer(namePlayer2);
+
+		const choice1 = player1.choice;
+		const choice2 = player2.choice;
+
+		if (choice1 === choice2) {
+			return 'draw';
+		}
+		if (choice1 === "rock") {
+			if (choice2 === "scissors") {
+				return { winner: player1, loser: player2};
+			} else {
+				return { winner: player2, loser: player1};
+			}
+		}
+		if (choice1 === "paper") {
+			if (choice2 === "rock") {
+				return { winner: player1, loser: player2};
+			} else {
+				return { winner: player2, loser: player1};
+			}
+		}
+		if (choice1 === "scissors") {
+			if (choice2 === "rock") {
+				return { winner: player2, loser: player1};
+			} else {
+				return { winner: player1, loser: player2};
+			}
+		}
 	}
 
 }
