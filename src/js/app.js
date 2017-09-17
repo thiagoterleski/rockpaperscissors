@@ -69,15 +69,15 @@ export default class App {
 		const isDraw = Boolean(results === 'draw');
 
 		// Little helper to normalize player name
-		const normalizeName = (name) => {
-			return (name === 'human') ? 'you' : name;
+		const normalizeName = (name, sufix = false) => {
+			return (name === 'human') ? `you ${(sufix) ? 'wins' : ''}` : `${name}${(sufix) ? 'wins' : ''}`;
 		}
 
 		const { winner, loser } = results;
 
 		let template = `
 			<div class="winner-text">
-				${(isDraw) ? 'Draw' : normalizeName(winner.name) + ' wins'}
+				${(isDraw) ? 'Draw' : normalizeName(winner.name, true)}
 			</div>
 			<div class="results">
 				<div class="player player1">
@@ -98,8 +98,8 @@ export default class App {
 			template = `
 				${template}
 				<div class="results-legend">
-					<div class="player winner"><b>${normalizeName(winner.name)}</b> - ${winner.choice}</div>
-					<div class="player loser"><b>${normalizeName(loser.name)}</b> - ${loser.choice}</div>
+					<div class="player winner"><b>${normalizeName(winner.name, false)}</b> - ${winner.choice}</div>
+					<div class="player loser"><b>${normalizeName(loser.name, false)}</b> - ${loser.choice}</div>
 				</div>
 			`
 		}
