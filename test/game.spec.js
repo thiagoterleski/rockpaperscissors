@@ -7,8 +7,8 @@ describe('Game class check functions', () => {
 	it('should have a createPlayer function', () => {
 		expect(GameClass.createPlayer).to.be.a('function');
 	});
-	it('should have a getPlayer function', () => {
-		expect(GameClass.getPlayer).to.be.a('function');
+	it('should have a getPlayerByName function', () => {
+		expect(GameClass.getPlayerByName).to.be.a('function');
 	});
 	it('should have a getAllPlayers function', () => {
 		expect(GameClass.getAllPlayers).to.be.a('function');
@@ -39,13 +39,13 @@ describe('Game method tests', () => {
 		expect(players).to.deep.equal([{'name':'Thiago','choice':''}]);
 	});
 
-	it('Should create a player and set a choice for him', () => {
+	it('Should create a player and set a choice', () => {
 		const GameClass = new Game();
 		GameClass.createPlayer('Thiago');
 		GameClass.setPlayerChoice('Thiago', 'rock');
 
 		const players = GameClass.getAllPlayers();
-		const player = GameClass.getPlayer('Thiago');
+		const player = GameClass.getPlayerByName('Thiago');
 
 		expect(players).to.deep.equal([player]);
 
