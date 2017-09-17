@@ -23,7 +23,7 @@ export default class Game {
 	 * @param  {String} [name=''] player name
 	 * @return {object}
 	 */
-	getPlayer(name = '') {
+	getPlayerByName(name = '') {
 		return this.players.find((p) => p.name === name)
 	}
 
@@ -81,8 +81,8 @@ export default class Game {
 	 */
 	computeGame(namePlayer1 = '', namePlayer2 = '') {
 
-		const player1 = this.getPlayer(namePlayer1);
-		const player2 = this.getPlayer(namePlayer2);
+		const player1 = this.getPlayerByName(namePlayer1);
+		const player2 = this.getPlayerByName(namePlayer2);
 
 		const choice1 = player1.choice;
 		const choice2 = player2.choice;
