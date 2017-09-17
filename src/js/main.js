@@ -1,5 +1,6 @@
 require('../css/main.scss');
 
-import print from './module';
+import App from './app';
 
-print('it works well!');
+const AppController = new App();
+AppController.render();
