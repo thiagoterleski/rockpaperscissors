@@ -81,7 +81,7 @@ export default class App {
 
 		// Little helper to normalize player name
 		const normalizeName = (name, sufix = false) => {
-			return (name === 'human') ? `you ${(sufix) ? 'wins' : ''}` : `${name}${(sufix) ? 'wins' : ''}`;
+			return (name === 'human') ? `you ${(sufix) ? ' wins' : ''}` : `${name}${(sufix) ? ' wins' : ''}`;
 		}
 
 		const { winner, loser } = results;
@@ -93,12 +93,12 @@ export default class App {
 			<div class="results">
 				<div class="player player1">
 					<div class="player-content">
-						<img src='${loadImage(isDraw ? 'hand' : winner.choice)}' width="400" height="400" />
+						<img src='${loadImage(isDraw ? 'draw' : winner.choice)}' width="400" height="400" />
 					</div>
 				</div>
 				<div class="player player2">
 					<div class="player-content">
-						<img src='${loadImage(isDraw ? 'hand' : loser.choice)}' width="400" height="400" />
+						<img src='${loadImage(isDraw ? 'draw' : loser.choice)}' width="400" height="400" />
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,7 @@
 import Paper from '../assets/paper.svg';
 import Scissor from '../assets/scissor.svg';
 import Rock from '../assets/rock.svg';
+import Draw from '../assets/draw.svg';
 
 /**
  * Basic counter function
@@ -30,7 +31,10 @@ export const loadImage = (choice = '') => {
 		return Rock;
 	} else if (choice === 'paper') {
 		return Paper;
-	} else {
-		return Scissor;
+	} else if (choice === 'draw') {
+		return Draw;
 	}
+
+	return Scissor;
+
 }
